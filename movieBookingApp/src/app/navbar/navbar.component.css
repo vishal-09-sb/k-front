@@ -1,0 +1,33 @@
+.navbar {
+    background-color: #333;
+    display: flex; /* added */
+    justify-content: space-between; /* added */
+    align-items: center; /* added */
+    padding: 0 10px; /* added - adjust as needed */
+    overflow: hidden;
+}
+
+.navbar a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar img {
+    height: 50px; /* adjust as needed */
+    width: 50px; /* adjust as needed */
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+@media screen and (max-width: 600px) {
+    .navbar a:not(:first-child) {display: none;}
+    .navbar a.icon {
+        float: right;
+        display: block;
+    }
+}

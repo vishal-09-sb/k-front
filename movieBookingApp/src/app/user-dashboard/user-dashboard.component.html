@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" [(ngModel)]="searchText" placeholder="Search for a movie">
+                <div class="input-group-append align-items-center">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <div class="legends">
+                        <span class="legend"><i class="fas fa-circle text-success"></i> 80+ Seats</span>
+                        <span class="legend"><i class="fas fa-circle text-success"></i> 60-79 Seats</span>
+                        <span class="legend"><i class="fas fa-circle text-warning"></i> 40-59 Seats</span>
+                        <span class="legend"><i class="fas fa-circle text-warning"></i> 20-39 Seats</span>
+                        <span class="legend"><i class="fas fa-circle text-danger"></i> Less than 20 Seats</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mt-4" *ngFor="let movie of movies | filter:searchText">
+            <div class="card shadow" [style.border-left]="getBorder(movie.seatsAvailable)">
+                <div class="card-body">
+                    <div class="h-100">
+                        <div class="d-flex justify-content-start align-items-center mb-3">
+                            <div class="avatar-circle mr-4">
+                                <span class="initials">{{ getAbbreviation(movie.movieName) }}</span>
+                            </div>
+                            <div style="padding-left: 15px;">
+                                <h4 class="font-weight-bold m-0">{{ movie.movieName }}</h4>
+                                <p class="text-muted mt-1">@{{ movie.theatreName }}</p>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-1"> <i class="fa fa-chair"></i> Seats Available: {{ movie.seatsAvailable }}</p>
+                        <p class="text-muted mb-3"> <i class="fa fa-ticket-alt"></i> Booked Seats: {{ movie.bookedSeats }}</p>
+                        <button class="btn btn-success card-link" [disabled]="movie.seatsAvailable === 0" (click)="bookTicket(movie.movieId, movie.movieName, movie.bookedSeats)">
+                            <span *ngIf="movie.seatsAvailable !== 0">Book Ticket</span>
+                            <span *ngIf="movie.seatsAvailable === 0">Sold Out</span>
+                        </button>
+                        <i style="padding-left: 5px;" *ngIf="movie.seatsAvailable === 0" class="fa fa-info-circle ml-2" data-toggle="tooltip" data-placement="top" title="This {{ movie.movieName }} from theatre {{ movie.theatreName }} is fully booked, hence you can't book any more tickets"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

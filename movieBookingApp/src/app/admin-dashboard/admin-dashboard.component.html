@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Search">
+                <div class="input-group-append align-items-center">
+                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-primary" (click)="navigateToAddMovie()">Add Movie</button>
+                </div>
+                <div class="col-md-6 text-right">
+                    <div class="legends">
+                        <span class="legend"><i class="fas fa-circle text-success"></i> Seats Available > 20</span>
+                        <span class="legend"><i class="fas fa-circle text-warning"></i> Seats Available ≤ 20 and > 10</span>
+                        <span class="legend"><i class="fas fa-circle text-danger"></i> Seats Available ≤ 10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mt-4" *ngFor="let movie of movies | filter:searchText">
+            <div class="card shadow" [style.border-left]="getBorder(movie.seatsAvailable)">
+                <div class="card-header p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <div class="avatar-circle">
+                                    <span class="initials">{{ getAbbreviation(movie.movieName) }}</span>
+                                </div>
+                            </div>
+                            <div class="ml-2" style="padding-left: 15px;">
+                                <div class="h5 m-0">
+                                    <span *ngIf="!movie.editMode">{{ movie.movieName }}</span>
+                                    <input type="text" *ngIf="movie.editMode" [(ngModel)]="movie.movieName" class="form-control">
+                                </div>
+                                <div class="h7 text-muted">@{{ movie.theatreName }}</div>
+                            </div>
+                        </div>
+                        <span class="edit-icon" (click)="toggleEditMode(movie)">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-muted h7 mb-2"> <i style="padding-right: 5px;" class="fa fa-chair"></i>Seats Available: {{ movie.seatsAvailable }}</div>
+                    <div class="text-muted h7 mb-2"> <i style="padding-right: 5px;" class="fa fa-ticket-alt"></i>Booked Seats: {{ movie.bookedSeats }}</div>
+                    <button class="btn btn-danger card-link" [disabled]="movie.bookedSeats !== 0" (click)="deleteMovie(movie.movieName, movie.theatreName)">
+                        Delete
+                    </button>
+                    <span style="padding-left: 5px;" *ngIf="movie.bookedSeats !== 0" (click)="showDisabledMessage(movie.movieName, movie.theatreName)">
+                        <i class="fa fa-question-circle"></i>
+                    </span>
+                    <button *ngIf="movie.editMode" class="btn btn-primary card-link" (click)="saveMovie(movie)">
+                        <i class="fa fa-check-circle"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
